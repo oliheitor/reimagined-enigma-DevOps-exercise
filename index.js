@@ -9,3 +9,7 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);
 });
+
+app.get('/about', (req, res) => {
+  res.send('Aplicação de exemplo para CI/CD com GitHub Actions e Docker.');
+});
