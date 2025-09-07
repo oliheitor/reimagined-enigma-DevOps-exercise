@@ -5,7 +5,7 @@ const port = 3000;
 
 // Rota principal
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Um simples "Hello World!"');
 });
 
 // Nova rota de informações
