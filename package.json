@@ -1,0 +1,12 @@
+{
+  "name": "reimagined-enigma-devops-exercise-main",
+  "version": "1.0.0",
+  "description": "Esse projeto trata-se simples Hello World em JavaScript para exercitar e desenvolver pipelines de CI/CD",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
