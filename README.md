@@ -11,4 +11,4 @@ Esse projeto trata-se simples Hello World em JavaScript para exercitar e desenvo
     node index.js
 
 3. Inicie o servidor
-    Acesse http://localhost:3000
+    Acesse o link http://localhost:3000
