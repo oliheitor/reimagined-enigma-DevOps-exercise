@@ -12,4 +12,3 @@ Esse projeto trata-se simples Hello World em JavaScript para exercitar e desenvo
 
 3. Inicie o servidor
     Acesse o link http://localhost:3000
-
