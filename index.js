@@ -1,24 +1,28 @@
-// Importa o framework Express
+// index.js
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Rota principal
-app.get('/', (req, res) => {
-  res.send('Um simples "Hello World!"');
+app.get('/', (_req, res) => {
+  res.send('Hello World!');
 });
 
-// Nova rota de informações
-app.get('/about', (req, res) => {
+// Rota adicional (usada nos testes)
+app.get('/about', (_req, res) => {
   res.send('Aplicação de exemplo para CI/CD com GitHub Actions e Docker.');
 });
 
-// Inicializa o servidor
-app.listen(port, () => {
-  console.log(`App running at http://localhost:${port}`);
+// Rota de saúde (usada nos testes)
+app.get('/health', (_req, res) => {
+  res.status(200).json({ status: 'ok' });
 });
 
+// Só inicia o servidor quando NÃO estiver em ambiente de teste
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`App running at http://localhost:${port}`);
+  });
+}
 
-app.get('/about', (req, res) => {
-  res.send('Aplicação de exemplo para CI/CD com GitHub Actions e Docker.');
-});
+module.exports = app;
