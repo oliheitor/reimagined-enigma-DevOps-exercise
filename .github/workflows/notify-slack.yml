@@ -1,0 +1,45 @@
+name: Slack Alerts
+
+on:
+  push:
+    branches: ['**']                 # avisa a cada commit, em qualquer branch
+  workflow_run:                      # avisa quando CI/CD terminar
+    workflows: ['CI - Node.js', 'CD - Build & Push (GHCR)']
+    types: [completed]
+
+jobs:
+  notify_on_push:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack (push)
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: 'GitHub Actions'
+          SLACK_ICON_EMOJI: ':rocket:'
+          SLACK_COLOR: '#439FE0'
+          SLACK_TITLE: 'Push em ${{ github.repository }}'
+          SLACK_MESSAGE: |
+            *${{ github.actor }}* fez push em *${{ github.ref_name }}*
+            Mensagem: ${{ github.event.head_commit.message }}
+            Execução: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  notify_on_workflow:
+    if: github.event_name == 'workflow_run'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack (workflow_run)
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: 'GitHub Actions'
+          SLACK_ICON_EMOJI: ':bell:'
+          # 'good' para sucesso, 'danger' para falha
+          SLACK_COLOR: ${{ github.event.workflow_run.conclusion == 'success' && 'good' || 'danger' }}
+          SLACK_TITLE: 'Workflow ${{ github.event.workflow_run.name }}: ${{ github.event.workflow_run.conclusion }}'
+          SLACK_MESSAGE: |
+            Branch: ${{ github.event.workflow_run.head_branch }}
+            Autor:  ${{ github.event.workflow_run.actor.login }}
+            SHA:    ${{ github.event.workflow_run.head_sha }}
+            Logs:   ${{ github.event.workflow_run.html_url }}
